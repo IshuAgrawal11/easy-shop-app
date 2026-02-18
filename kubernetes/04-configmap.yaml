@@ -6,7 +6,7 @@ metadata:
 data:
   MONGODB_URI: "mongodb://mongodb-service:27017/easyshop"
   NODE_ENV: "production"
-  NEXT_PUBLIC_API_URL: "https://easyshop.letsdeployit.com/api"
-  NEXTAUTH_URL: "https://easyshop.letsdeployit.com/"
-  NEXTAUTH_SECRET: "HmaFjYZ2jbUK7Ef+wZrBiJei4ZNGBAJ5IdiOGAyQegw="
-  JWT_SECRET: "e5e425764a34a2117ec2028bd53d6f1388e7b90aeae9fa7735f2469ea3a6cc8c"
+  NEXT_PUBLIC_API_URL: "http://13.53.140.107/api"
+  NEXTAUTH_URL: "http://13.53.140.107/"
+  NEXTAUTH_SECRET: "VR0gr7+fzObzLD2IgazRkuUXPz6KYouStCzsug70KkM="
+  JWT_SECRET: "136dee4595da8ef5d27255e6c83222568c540db0dc71e7f902b7887de7e498c7"
