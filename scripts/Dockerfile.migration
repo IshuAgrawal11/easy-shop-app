@@ -1,25 +1,35 @@
-# Use Node.js 18 Alpine as base
-FROM node:18-alpine
+# stage 1: Builder ---
+FROM node:20-alpine AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Install necessary build dependencies
+# Install build dependencies only needed for npm install
 RUN apk add --no-cache python3 make g++
 
-# Copy package files and tsconfig
-COPY package*.json tsconfig.json ./
+# Copy only files needed for installing dependencies
+COPY package*.json ./
+COPY tsconfig.json ./
 
-# Copy scripts and data
+# Install all dependencies (including devDeps for types/ts-node)
+RUN npm ci
+
+# Copy the rest of the source code
 COPY scripts ./scripts
 COPY .db ./.db
 
-# Install dependencies
-RUN npm install
-RUN npm install --save-dev @types/mongoose
+# --- Stage 2: Final Runtime ---
+FROM node:20-alpine AS runner
 
-# Set environment variables
-ENV NODE_ENV=development
+WORKDIR /app
 
-# Command to run migration
+# Copy only the necessary artifacts from the builder
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/.db ./.db
+
+# Set environment to production (optimizes many Node.js libraries)
+ENV NODE_ENV=production
+
+# Use a non-root user for security (built-in to node alpine)
+USER node
+
 CMD ["npx", "ts-node", "--project", "scripts/tsconfig.json", "scripts/migrate-data.ts"]
