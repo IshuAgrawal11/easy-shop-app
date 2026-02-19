@@ -16,9 +16,7 @@ services:
       - easyshop-network
 
   migration:
-    build:
-      context: .
-      dockerfile: scripts/Dockerfile.migration
+    image: ishu11/easyshop-migration:latest
     container_name: easyshop-migration
     env_file:
       - .env
@@ -29,9 +27,7 @@ services:
       - easyshop-network
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ishu11/easyshop:latest
     container_name: easyshop
     ports:
       - "3000:3000"
